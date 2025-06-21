@@ -4,7 +4,7 @@ const HeaderSection = () => (
     <div className={styles.container}>
         <h1 className={styles.title}>Find the Best Meal for You</h1>
         <p className={styles.subtitle}>
-          Search by product name to explore detailed nutrition facts and make healthier food choices
+            Search by product name to explore detailed <br className={styles.mobileBreak} />nutrition facts and make healthier food choices
         </p>
     </div>
 );

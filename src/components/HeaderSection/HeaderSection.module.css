@@ -1,6 +1,6 @@
 .container {
-    margin: 150px auto 0 auto; /* 32px top margin, auto left/right, 0 bottom */
-    width: 800px; /* or any width you prefer */
+    margin: 150px auto 0 auto;
+    width: 800px; 
     text-align: center;
 }
 
@@ -17,11 +17,16 @@
     font-size: 16px;
 }
 
+.mobileBreak {
+    display: none;
+}
+
 /* Mobile */
 @media (max-width: 767px) {
-   .container {
-       width: 350px;
-   }
+    .container {
+        margin: 100px auto 0 auto;
+        width: 350px;
+    }
 
    .title {
        font-size: 36px;
@@ -30,6 +35,10 @@
    .subtitle {
        font-size: 14px;
    }
+
+    .mobileBreak {
+        display: inline;
+    }
 }
 
 /* Tablet */

@@ -4,11 +4,22 @@
     gap: 8px;
     padding: 1rem 1.3rem;
     border-radius: 4px;
-    background-color: #fff;
     cursor: pointer;
     font-size: 16px;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2);
+    border: 0px;
 }
+
+.light {
+    color: #666666;
+    background-color: #fff;
+}
+
+.dark {
+    background: linear-gradient(to right, #5ebd9e, #3d86e2);
+    color: #fff;
+}
+
 
 .icon {
     width: 20px;
@@ -17,7 +28,6 @@
 }
 
 .label {
-    color: #666666;
     font-weight: bold;
     font-size: 16px;
 }

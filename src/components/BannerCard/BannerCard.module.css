@@ -1,0 +1,50 @@
+.card {
+    display: flex;
+    justify-content: center;
+    padding: 3rem 5rem;
+    align-items: center;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+    border-bottom: 2px solid #ebe4e4;
+    width: 100%;
+    gap: 50px;
+}
+
+.left {
+    flex-direction: row;
+}
+
+.right {
+    flex-direction: row-reverse;
+}
+
+.image {
+    width: 400px;
+    height: auto;
+    object-fit: cover;
+}
+
+.content {
+    gap: 0px;
+}
+
+.title {
+    margin-top: 0px;
+    background: linear-gradient(to right, #5ebd9e, #3d86e2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: justify;
+}
+
+.text {
+    font-size: 16px;
+    color: #555;
+    width: 550px;
+    text-align: justify;
+    margin-bottom: 40px;
+    white-space: pre-line;
+}
+

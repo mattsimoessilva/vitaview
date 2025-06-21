@@ -9,6 +9,14 @@
 
 /* Mobile */
 @media (max-width: 767px) {
+    .mainContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        width: 100vw;
+        gap: 40px;
+    }
 }
 
 /* Tablet */
