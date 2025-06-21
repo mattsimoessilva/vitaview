@@ -1,14 +1,14 @@
-.mainContainer {
+.row {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    width: 100vw;
-    gap: 50px; 
+    gap: 30px; 
 }
 
 /* Mobile */
 @media (max-width: 767px) {
+    .row {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }
 
 /* Tablet */

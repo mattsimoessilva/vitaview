@@ -1,6 +1,6 @@
 .container {
     margin: 150px auto 0 auto; /* 32px top margin, auto left/right, 0 bottom */
-    max-width: 800px; /* or any width you prefer */
+    width: 800px; /* or any width you prefer */
     text-align: center;
 }
 
@@ -8,17 +8,28 @@
     background: linear-gradient(to right, #5ebd9e, #3d86e2);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-size: 48px;
 }
 
 .subtitle {
-    max-width: 600px;
-    margin: 10px auto;
+    margin: 0px;
     color: #293339;
+    font-size: 16px;
 }
 
 /* Mobile */
 @media (max-width: 767px) {
-   
+   .container {
+       width: 350px;
+   }
+
+   .title {
+       font-size: 36px;
+   }
+
+   .subtitle {
+       font-size: 14px;
+   }
 }
 
 /* Tablet */

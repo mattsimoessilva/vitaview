@@ -4,5 +4,6 @@ html, body {
     overflow-x: hidden;
     font-family: "Roboto", sans-serif;
     background-color: #defcff;
+    overscroll-behavior: none;
 }
 
