@@ -5,7 +5,7 @@ interface BannerCardProps {
     title: string;
     text: string;
     button: React.ReactNode;
-    imagePosition?: 'left' | 'right'; // optional, defaults to 'left'
+    imagePosition?: 'standard' | 'varied'; // optional, defaults to 'left'
 }
 
 
@@ -14,19 +14,19 @@ export default function BannerCard({
     title,
     text,
     button,
-    imagePosition = 'left',
+    imagePosition = 'standard',
 }: BannerCardProps) {
-    const isImageLeft = imagePosition === 'left';
+    const isImageStandard = imagePosition === 'standard';
 
     return (
         <div
-            className={`${styles.card} ${isImageLeft ? styles.left : styles.right}`}
+            className={`${styles.card} ${isImageStandard ? styles.standard : styles.varied}`}
         >
             <img src={imageSrc} alt={title} className={styles.image} />
             <div className={styles.content}>
                 <h3 className={styles.title}>{title}</h3>
                 <p className={styles.text}>{text}</p>
-                <div className={styles.buttonContainer}>{button}</div>
+                <div className={styles.button}>{button}</div>
             </div>
         </div>
     );

@@ -22,34 +22,33 @@ function Home() {
     };
 
     const buttons = [
-        { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' },
-        { iconSrc: FavoriteIcon, label: 'Favorite Food', altText: 'Favorite Icon' }
+        { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
     ];
 
     const banners = [
         {
             imageSrc: NutritionArt,
             title: 'Nutritional Scores',
-            text: `Here users can search for food items and view their nutritional score through a clean, transparent interface.
+            text: `Here users can search for food items and view their nutritional score through a clean, transparent interface
                     \nEach food is evaluated using key dietary metrics such as calories, fat, sugar, fiber, and protein, and the resulting score offers a simple way to assess overall nutritional quality`,
             button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
-            imagePosition: 'left'
+            imagePosition: 'standard'
         },
         {
             imageSrc: ProcessingArt,
             title: 'Processing Scores',
-            text: `We empower users to explore and compare food items through a modern, transparent interface designed for clarity and ease of use.
+            text: `We empower users to explore and compare food items through a modern, transparent interface designed for clarity and ease of use
                     \nEach food product is assigned a nutritional score derived from essential dietary metrics, including calories, fat, sugar, fiber, and protein`,
             button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
-            imagePosition: 'right'
+            imagePosition: 'varied'
         },
         {
             imageSrc: EcologyArt,
             title: 'Green Scores',
-            text: `Each product is assigned a comprehensive sustainability rating informed by a range of critical environmental criteria.
+            text: `Each product is assigned a comprehensive sustainability rating informed by a range of critical environmental criteria
                     \nThese include greenhouse gas emissions across its lifecycle, freshwater consumption during production, and many others`,
             button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
-            imagePosition: 'left'
+            imagePosition: 'standard'
         }
     ];  
 
