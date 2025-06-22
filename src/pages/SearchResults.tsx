@@ -6,8 +6,12 @@ import ButtonGroup from '../components/ButtonGroup/ButtonGroup';
 import ListIcon from '../assets/list.svg';
 import ContentArea from '../components/ContentArea/ContentArea';
 import ResultList from '../components/ResultList/ResultList';
-
+import Pagination from '@mui/material/Pagination';
+import { useTheme, useMediaQuery } from '@mui/material';
 function SearchResults() {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
     const handleSearch = (query: string) => {
         console.log('User searched for:', query);
     };
@@ -33,6 +37,13 @@ function SearchResults() {
                 <ButtonGroup buttons={buttons} varied />
                 <ContentArea>
                     <ResultList products={products} />
+                    <Pagination
+                        count={10}
+                        shape="rounded"
+                        size="large"
+                        siblingCount={isMobile ? 0 : 0}
+                        boundaryCount={isMobile ? 0 : 2}
+                    />
                 </ContentArea>
             </MainContainer>
             <Footer />
