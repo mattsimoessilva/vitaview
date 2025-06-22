@@ -2,7 +2,7 @@ import styles from './ResultList.module.css';
 import ProductListCard from '../ProductListCard/ProductListCard';
 
 interface ResultListProps {
-    products: { imageSrc: string, name: string, categories: string, labels: string }[];
+    products: { imageSrc: string, name: string, brands: string, labels: string }[];
 }
 
 const ResultList: React.FC<ResultListProps> = ({ products }) => (
