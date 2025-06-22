@@ -2,6 +2,7 @@ import Header from '../components/Header/Header';
 import HeaderSection from '../components/HeaderSection/HeaderSection';
 import MainContainer from '../components/MainContainer/MainContainer';
 import SearchBar from '../components/SearchBar/SearchBar';
+import Footer from '../components/Footer/Footer';
 
 import ButtonGroup from '../components/ButtonGroup/ButtonGroup';
 import BannerGroup from '../components/BannerGroup/BannerGroup';
@@ -9,7 +10,6 @@ import BannerGroup from '../components/BannerGroup/BannerGroup';
 import IconButton from '../components/IconButton/IconButton';
 
 import ListIcon from '../assets/list.svg';
-import FavoriteIcon from '../assets/favorite.svg';
 import LinkIcon from '../assets/link.svg';
 
 import NutritionArt from '../assets/nutrition.png';
@@ -61,7 +61,7 @@ function Home() {
                 <ButtonGroup buttons={buttons} />
                 <BannerGroup banners={banners} />
             </MainContainer>
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 }
