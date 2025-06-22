@@ -5,7 +5,7 @@ const Loading = () => {
     return (
         <div className={styles.container}>
             <CircularProgress size={40} />
-            <p className={styles.text}>Loading results for you...</p>
+            <p className={styles.text}>Loading data for you...</p>
         </div>
     );
 }

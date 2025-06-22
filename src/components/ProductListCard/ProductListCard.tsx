@@ -1,6 +1,8 @@
 import styles from './ProductListCard.module.css';
+import { Link } from 'react-router-dom';
 
 interface ProductProps {
+    code: string;
     imageSrc: string;
     brands: string;
     labels: string;
@@ -8,6 +10,7 @@ interface ProductProps {
 }
 
 export default function ProductListCard({
+    code,
     imageSrc,
     brands,
     labels,
@@ -17,7 +20,9 @@ export default function ProductListCard({
         <div className={styles.card}>
             <img src={imageSrc} className={styles.image} />
             <div className={styles.details}>
-                <h3 className={styles.name}>{name}</h3>
+                <Link to={`/product/${code}`} className={styles.link}>
+                    <h3 className={styles.name}>{name}</h3>
+                </Link>
 
                 <div className={styles.info}>
                     <h5 className={styles.title}>Brands</h5>
