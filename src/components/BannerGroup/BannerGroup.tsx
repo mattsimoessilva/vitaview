@@ -2,7 +2,7 @@ import styles from './BannerGroup.module.css';
 import BannerCard from '../BannerCard/BannerCard';
 
 interface BannerGroupProps {
-    banners: { imageSrc: string; title: string; text: string, button: React.ReactNode, imagePosition?: 'left' | 'right'; }[];
+    banners: { imageSrc: string; title: string; text: string, button: React.ReactNode, imagePosition?: string; }[];
 }
 
 const BannerGroup: React.FC<BannerGroupProps> = ({ banners }) => (

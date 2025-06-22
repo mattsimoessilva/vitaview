@@ -5,7 +5,7 @@ interface BannerCardProps {
     title: string;
     text: string;
     button: React.ReactNode;
-    imagePosition?: 'standard' | 'varied'; // optional, defaults to 'left'
+    imagePosition?: string;
 }
 
 

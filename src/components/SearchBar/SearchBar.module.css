@@ -16,6 +16,10 @@
     padding-right: 2.5rem;
 }
 
+.long {
+    width: 900px;
+}
+
 .icon {
     position: absolute;
     right: 1.5rem;
@@ -33,10 +37,13 @@
 /* Mobile */
 @media (max-width: 767px) {
     .container {
-        width: 350px;
+        width: 320px;
     }
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        width: 600px;
+    }
 }

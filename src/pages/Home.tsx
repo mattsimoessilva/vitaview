@@ -16,9 +16,14 @@ import NutritionArt from '../assets/nutrition.png';
 import ProcessingArt from '../assets/processing.png';
 import EcologyArt from '../assets/ecology.png';
 
+import { useNavigate } from 'react-router-dom';
+
 function Home() {
+    const navigate = useNavigate();
+
     const handleSearch = (query: string) => {
         console.log('User searched for:', query);
+        navigate(`/results?query=${encodeURIComponent(query)}`);
     };
 
     const buttons = [

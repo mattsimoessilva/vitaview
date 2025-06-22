@@ -1,16 +1,24 @@
 .row {
     display: flex;
+    justify-content: center;
     gap: 30px; 
+    width: 700px;
+}
+
+.varied {
+    width: 900px;
 }
 
 /* Mobile */
 @media (max-width: 767px) {
-    .row {
-        flex-direction: column;
-        align-items: stretch;
+    .varied {
+        width: 320px;
     }
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1024px) {
+    .varied {
+        width: 600px;
+    }
 }

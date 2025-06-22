@@ -1,24 +1,21 @@
 .mainContainer {
+    margin-top: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 100vh;
     width: 100vw;
     gap: 50px; 
+    margin-bottom: 0px;
 }
 
 /* Mobile */
 @media (max-width: 767px) {
     .mainContainer {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        width: 100vw;
-        gap: 40px;
+        margin-top: 110px;
     }
 }
 
 /* Tablet */
 @media (min-width: 768px) and (max-width: 1024px) {
+   
 }

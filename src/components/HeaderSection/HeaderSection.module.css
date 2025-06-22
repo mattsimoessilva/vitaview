@@ -1,6 +1,6 @@
 .container {
-    margin: 150px auto 0 auto;
-    width: 800px; 
+    margin: 0 auto 0 auto;
+    width: 800px;
     text-align: center;
 }
 
@@ -24,7 +24,7 @@
 /* Mobile */
 @media (max-width: 767px) {
     .container {
-        margin: 100px auto 0 auto;
+        margin: 0 auto 0 auto;
         width: 350px;
     }
 

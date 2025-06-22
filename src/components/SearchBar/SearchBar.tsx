@@ -4,17 +4,22 @@ import SearchIcon from '../../assets/search.svg';
 type SearchBarProps = {
     placeholder?: string;
     onSearch: (value: string) => void;
+    long?: boolean;
 };
 
-const SearchBar = ({ placeholder = 'Search something...', onSearch }: SearchBarProps) => {
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => { 
+const SearchBar = ({ placeholder = 'Search something...', onSearch, long = false }: SearchBarProps) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && onSearch) {
             onSearch(e.currentTarget.value);
         }
     };
 
+    const containerClass = long
+        ? `${styles.container} ${styles.long}`
+        : styles.container;
+
     return (
-        <div className={styles.container}>
+        <div className={containerClass}>
             <input
                 type="text"
                 placeholder={placeholder}
@@ -29,3 +34,4 @@ const SearchBar = ({ placeholder = 'Search something...', onSearch }: SearchBarP
 };
 
 export default SearchBar;
+
