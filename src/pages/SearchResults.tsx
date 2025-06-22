@@ -9,6 +9,7 @@ import ListIcon from '../assets/list.svg';
 import ContentArea from '../components/ContentArea/ContentArea';
 import ResultList from '../components/ResultList/ResultList';
 import Pagination from '@mui/material/Pagination';
+import Loading from '../components/Loading/Loading';
 import { useTheme, useMediaQuery } from '@mui/material';
 import MockImage from '../assets/mock_image.jpg';
 
@@ -124,7 +125,13 @@ function SearchResults() {
         imageSrc: product.image_url || '',
         name: product.product_name || 'Unnamed Product',
         brands: product.brands || 'Unknown Brand',
-        labels: product.labels_tags?.join(', ') || 'No Labels',
+        labels: product.labels_tags
+            ?.filter(label => label.startsWith('en:'))
+            .map(label => {
+                const cleaned = label.replace(/^en:/, '').replace(/-/g, ' ');
+                return cleaned.charAt(0).toUpperCase() + cleaned.slice(1);
+            })
+            .join(', ') || 'No Labels',
         eco_score: product.nutrition_grades_tags?.[0]?.toUpperCase() || 'N/A'
     }));
 
@@ -136,7 +143,7 @@ function SearchResults() {
                 <ButtonGroup buttons={buttons} varied />
                 <ContentArea>
                     {loading ? (
-                        <p>Loading results...</p>
+                        <Loading />
                     ) : results.length > 0 ? (
                         <>
                             <ResultList products={formattedProducts} />
@@ -151,7 +158,7 @@ function SearchResults() {
                             />
                         </>
                     ) : (
-                        <p>No results found for “{query}”.</p>
+                        <p>No results found for “{query}”</p>
                     )}
                 </ContentArea>
             </MainContainer>
