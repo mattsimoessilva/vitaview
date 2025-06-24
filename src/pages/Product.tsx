@@ -10,8 +10,9 @@ import Loading from '../components/Loading/Loading';
 import ProductCard from '../components/ProductCard/ProductCard';
 import ListIcon from '../assets/list.svg';
 import MockImage from '../assets/mock_image.jpg';
+import config from '../config';
 
-const USE_API = false;
+const USE_API = config.USE_API;
 
 const buttons = [
     { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
@@ -50,7 +51,6 @@ function Product() {
 
     useEffect(() => {
         if (!USE_API) {
-            // Use mock data
             setProduct({
                 code: 'mock123',
                 name: 'Mock Chocolate Delight Bar with Ultra Flavor Burst and Crunchy Clusters',
@@ -70,43 +70,61 @@ function Product() {
                 eco_score: 'B',
                 carbon_footprint: '600 g CO2 eq/kg',
             });
-
             return;
         }
 
-        // Otherwise fetch from API (placeholder)
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}`);
+                const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=code,product_name,brands,labels_tags,quantity,generic_name,manufacturing_place,countries_tags,ingredients_text,allergens_tags,categories_tags,packaging_recycling,image_url,nutriscore_grade,nova_group,ecoscore_grade,carbon_footprint`);
                 const data = await res.json();
-                if (data.product) {
+
+                if (data.status === 1 && data.product) {
                     setProduct({
                         code: data.product.code ?? '',
-                        name: data.product.name ?? '',
-                        brands: data.product.brands ?? '',
-                        labels: (data.product.labels_tags || []).filter((label: string) =>
-                            label.startsWith('en:')
-                        ).map((label: string) =>
-                            label.replace('en:', '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
-                        ).join(', ') || 'No Labels',
-                        quantity: data.product.quantity ?? '',
-                        generic_name: data.product.generic_name ?? '',
-                        manufacturing_location: data.product.manufacturing_place ?? '',
-                        countries_sold: data.product.countries_tags ? data.product.countries_tags.join(', ') : '',
-                        ingredients_list: data.product.ingredients_text ?? '',
-                        allergens: data.product.allergens ?? '',
-                        type: data.product.categories_tags ? data.product.categories_tags.join(', ') : '',
-                        recyclability: data.product.packaging_recycling ?? '',
-                        imageSrc: data.product.image_url || '',
-                        nutri_score: data.product.nutriscore_grade ?? '',
-                        nova_group: data.product.nova_group ? String(data.product.nova_group) : '',
-                        eco_score: data.product.ecoscore_grade ?? '',
-                        carbon_footprint: data.product.carbon_footprint ?? '',
+                        name: data.product.product_name ?? 'Unnamed',
+                        brands: data.product.brands ?? 'Unknown',
+                        labels: (data.product.labels_tags || [])
+                            .map((label: string) =>
+                                label.replace(/^en:/, '')
+                                    .replace(/-/g, ' ')
+                                    .replace(/\b\w/g, c => c.toUpperCase())
+                            ).join(', ') || 'No Labels',
+                        quantity: data.product.quantity ?? 'Not provided',
+                        generic_name: data.product.generic_name ?? 'Not available',
+                        manufacturing_location: data.product.manufacturing_place ?? 'Not provided',
+                        countries_sold: (data.product.countries_tags || [])
+                            .map((c: string) =>
+                                c.replace(/^en:/, '')
+                                    .replace(/-/g, ' ')
+                                    .replace(/\b\w/g, l => l.toUpperCase())
+                            ).join(', ') || 'Not specified',
+                        ingredients_list: data.product.ingredients_text ?? 'Not listed',
+                        allergens: (data.product.allergens_tags || [])
+                            .map((a: string) =>
+                                a.replace(/^en:/, '')
+                                    .replace(/-/g, ' ')
+                                    .replace(/\b\w/g, c => c.toUpperCase())
+                            ).join(', ') || 'None',
+                        type: (data.product.categories_tags || [])
+                            .map((cat: string) =>
+                                cat.replace(/^en:/, '')
+                                    .replace(/-/g, ' ')
+                                    .replace(/\b\w/g, c => c.toUpperCase())
+                            ).join(', ') || 'Uncategorized',
+                        recyclability: data.product.packaging_recycling ?? 'Unknown',
+                        imageSrc: data.product.image_url ?? '',
+                        nutri_score: data.product.nutriscore_grade?.toUpperCase() ?? 'N/A',
+                        nova_group: data.product.nova_group ? String(data.product.nova_group) : 'N/A',
+                        eco_score: data.product.ecoscore_grade?.toUpperCase() ?? 'N/A',
+                        carbon_footprint: data.product.carbon_footprint ?? 'Not available',
                     });
+                } else {
+                    setProduct(null);
                 }
             } catch (err) {
-                console.error('Error loading product:', err);
+                console.error('Error fetching product:', err);
+                setProduct(null);
             } finally {
                 setLoading(false);
             }
@@ -125,28 +143,7 @@ function Product() {
                     {loading ? (
                         <Loading />
                     ) : product ? (
-                            <ProductCard
-                                product={{
-                                    code: product.code,
-                                    name: product.name,
-                                    brands: product.brands,
-                                    labels: product.labels,
-                                    quantity: product.quantity,
-                                    generic_name: product.generic_name,
-                                    imageSrc: product.imageSrc,
-                                    manufacturing_location: product.manufacturing_location,
-                                    countries_sold: product.countries_sold,
-                                    ingredients_list: product.ingredients_list,
-                                    allergens: product.allergens,
-                                    type: product.type,
-                                    recyclability: product.recyclability,
-                                    nutri_score: product.nutri_score,
-                                    nova_group: product.nova_group,
-                                    eco_score: product.eco_score,
-                                    carbon_footprint: product.carbon_footprint,
-                                }}
-                            />
-
+                        <ProductCard product={product} />
                     ) : (
                         <p>No data found for “{code}”</p>
                     )}

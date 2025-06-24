@@ -12,8 +12,10 @@ import Pagination from '@mui/material/Pagination';
 import Loading from '../components/Loading/Loading';
 import { useTheme, useMediaQuery } from '@mui/material';
 import MockImage from '../assets/mock_image.jpg';
+import config from '../config';
 
-const USE_API = false;
+const USE_API = config.USE_API;
+
 
 interface Product {
     code: string;
@@ -122,6 +124,7 @@ function SearchResults() {
     ];
 
     const formattedProducts = results.map((product) => ({
+        code: product.code, // Add this line
         imageSrc: product.image_url || '',
         name: product.product_name || 'Unnamed Product',
         brands: product.brands || 'Unknown Brand',
@@ -134,6 +137,7 @@ function SearchResults() {
             .join(', ') || 'No Labels',
         eco_score: product.nutrition_grades_tags?.[0]?.toUpperCase() || 'N/A'
     }));
+
 
     return (
         <>
