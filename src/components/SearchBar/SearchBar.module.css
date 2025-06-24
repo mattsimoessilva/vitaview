@@ -34,10 +34,48 @@
     font-weight: 525;
 }
 
+.floatingError {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4d4f;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    font-size: 16px;
+    z-index: 1000;
+    opacity: 1;
+    white-space: nowrap; /* prevents line breaks */
+    animation: fadeOut 4s ease-in-out forwards;
+}
+
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+
 /* Mobile */
 @media (max-width: 767px) {
     .container {
         width: 320px;
+    }
+
+    .floatingError {
+        font-size: 14px;
     }
 }
 
