@@ -27,7 +27,7 @@ function Home() {
     };
 
     const buttons = [
-        { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
+        { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon', link: '/dietary' }
     ];
 
     const banners = [
