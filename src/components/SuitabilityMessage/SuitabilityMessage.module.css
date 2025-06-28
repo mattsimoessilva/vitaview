@@ -1,0 +1,29 @@
+.container {
+    color: white;
+    opacity: 1; 
+    display: flex;
+    gap: 8px;
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    font-size: 16px;
+    border: 0px;
+}
+
+.suitable {
+    background-color: #85C385;
+}
+
+.not_suitable {
+    background-color: #CD7676;
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .container {
+        font-size: 14px;
+    }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+}

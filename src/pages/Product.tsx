@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+Ôªøimport { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import MainContainer from '../components/MainContainer/MainContainer';
@@ -11,6 +11,8 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import ListIcon from '../assets/list.svg';
 import MockImage from '../assets/mock_image.jpg';
 import config from '../config';
+import { isProductSuitable } from '../utils/checkSuitability';
+import SuitabilityMessage from '../components/SuitabilityMessage/SuitabilityMessage';
 
 const USE_API = config.USE_API;
 
@@ -44,6 +46,7 @@ function Product() {
 
     const [loading, setLoading] = useState(USE_API);
     const [product, setProduct] = useState<ProductData | null>(null);
+    const [suitabilityMessage, setSuitabilityMessage] = useState<string | null>(null);
 
     const handleSearch = (newQuery: string) => {
         navigate(`/results?query=${encodeURIComponent(newQuery)}&page=1`);
@@ -76,7 +79,7 @@ function Product() {
         const fetchProduct = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=code,product_name,brands,labels_tags,quantity,generic_name,manufacturing_place,countries_tags,ingredients_text,allergens_tags,categories_tags,packaging_recycling,image_url,nutriscore_grade,nova_group,ecoscore_grade,carbon_footprint`);
+                const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=code,product_name,brands,labels_tags,quantity,generic_name,manufacturing_place,countries_tags,ingredients_text,ingredients_tags,allergens_tags,categories_tags,packaging_tags,packaging_recycling,image_url,nutriscore_grade,nova_group,ecoscore_grade,carbon_footprint,nutriments,ingredients_analysis_tags`);
                 const data = await res.json();
 
                 if (data.status === 1 && data.product) {
@@ -119,6 +122,33 @@ function Product() {
                         eco_score: data.product.ecoscore_grade?.toUpperCase() ?? 'N/A',
                         carbon_footprint: data.product.carbon_footprint ?? 'Not available',
                     });
+
+                    // Suitability check
+                    const activeProfile = localStorage.getItem('activeUserProfile');
+                    if (activeProfile) {
+                        const user = JSON.parse(activeProfile);
+                        const suitability = isProductSuitable(user, {
+                            ingredients_tags: data.product.ingredients_tags ?? [],
+                            allergens_tags: data.product.allergens_tags ?? [],
+                            nutriments: {
+                                sugars_value: data.product.nutriments?.sugars ?? 0,
+                                sodium_value: data.product.nutriments?.sodium ?? 0,
+                                fat_value: data.product.nutriments?.fat ?? 0,
+                                saturated_fat: data.product.nutriments?.saturated_fat ?? 0,
+                                proteins_value: data.product.nutriments?.proteins ?? 0,
+                                carbohydrates_value: data.product.nutriments?.carbohydrates ?? 0
+                            },
+                            packaging_tags: data.product.packaging_tags ?? [],
+                            labels_tags: data.product.labels_tags ?? [],
+                            ingredients_analysis_tags: data.product.ingredients_analysis_tags ?? []
+                        });
+
+                        setSuitabilityMessage(
+                            suitability.suitable
+                                ? 'suitable'
+                                : 'not_suitable'
+                        );
+                    }
                 } else {
                     setProduct(null);
                 }
@@ -143,9 +173,15 @@ function Product() {
                     {loading ? (
                         <Loading />
                     ) : product ? (
-                        <ProductCard product={product} />
+                        <>
+                            {(USE_API && suitabilityMessage) || !USE_API ? (
+                                <SuitabilityMessage status={USE_API ? suitabilityMessage! : 'suitable'} />
+                            ) : null}
+
+                            <ProductCard product={product} />
+                        </>
                     ) : (
-                        <p>No data found for ì{code}î</p>
+                        <p>No data found for ‚Äú{code}‚Äù</p>
                     )}
                 </ContentArea>
             </MainContainer>
