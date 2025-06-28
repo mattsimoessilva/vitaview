@@ -1,5 +1,4 @@
-﻿import { useState, useEffect } from 'react';
-import styles from './ProfileCard.module.css';
+﻿import styles from './ProfileCard.module.css';
 import saveIcon from '../../assets/save.svg';
 import deleteIcon from '../../assets/delete.svg';
 
@@ -12,87 +11,56 @@ const packagingOptions = ['Recyclable', 'Minimal Packaging', 'Plastic-Free'];
 
 interface ProfileCardProps {
     index: number;
+    data: any;
+    onChange: (updatedProfile: any) => void;
     onDelete: (index: number) => void;
 }
 
-export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
-    const [profile, setProfile] = useState(() => {
-        const stored = localStorage.getItem('dietaryProfiles');
-        const profiles = stored ? JSON.parse(stored) : [];
-        return profiles[index] || {
-            user_info: { name: '', age: '', dietary_preference: [] },
-            allergies: { common_allergens: [], severity: '' },
-            health_goals: {
-                macro_limits: { sugar_limit_g: '', sodium_limit_g: '', fat_limit_g: '' },
-                special_diets: []
-            },
-            ingredient_preferences: { avoid: [], preferred: [] },
-            environmental_preferences: { packaging: [] }
-        };
-    });
-
-    const updateProfile = (section: string, field: string, value: any) => {
-        setProfile(prev => ({
-            ...prev,
+export default function ProfileCard({ index, data, onChange, onDelete }: ProfileCardProps) {
+    const updateField = (section: string, field: string, value: any) => {
+        const updated = {
+            ...data,
             [section]: {
-                ...prev[section],
+                ...data[section],
                 [field]: value
             }
-        }));
+        };
+        onChange(updated);
     };
 
     const updateMacro = (macro: string, value: string) => {
-        setProfile(prev => ({
-            ...prev,
+        const updated = {
+            ...data,
             health_goals: {
-                ...prev.health_goals,
+                ...data.health_goals,
                 macro_limits: {
-                    ...prev.health_goals.macro_limits,
+                    ...data.health_goals.macro_limits,
                     [macro]: value
                 }
             }
-        }));
+        };
+        onChange(updated);
     };
 
     const toggleArrayValue = (section: string, field: string, value: string) => {
-        setProfile(prev => {
-            const current = prev[section][field];
-            const updated = current.includes(value)
-                ? current.filter((v: string) => v !== value)
-                : [...current, value];
-            return {
-                ...prev,
-                [section]: {
-                    ...prev[section],
-                    [field]: updated
-                }
-            };
-        });
+        const current = data[section][field];
+        const updatedArray = current.includes(value)
+            ? current.filter((v: string) => v !== value)
+            : [...current, value];
+
+        updateField(section, field, updatedArray);
     };
 
     const handleAvoidChange = (value: string) => {
-        setProfile(prev => ({
-            ...prev,
-            ingredient_preferences: {
-                ...prev.ingredient_preferences,
-                avoid: value.split(',').map(s => s.trim())
-            }
-        }));
+        const array = value.split(',').map(s => s.trim());
+        updateField('ingredient_preferences', 'avoid', array);
     };
 
     const saveProfile = () => {
-        const stored = localStorage.getItem('dietaryProfiles');
-        const profiles = stored ? JSON.parse(stored) : [];
-        profiles[index] = profile;
-        localStorage.setItem('dietaryProfiles', JSON.stringify(profiles));
         alert(`Profile ${index + 1} saved!`);
     };
 
     const deleteProfile = () => {
-        const stored = localStorage.getItem('dietaryProfiles');
-        const profiles = stored ? JSON.parse(stored) : [];
-        profiles.splice(index, 1);
-        localStorage.setItem('dietaryProfiles', JSON.stringify(profiles));
         onDelete(index);
     };
 
@@ -102,8 +70,8 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
             <input
                 type="text"
                 className={styles.text}
-                value={profile.user_info.name}
-                onChange={e => updateProfile('user_info', 'name', e.target.value)}
+                value={data.user_info.name}
+                onChange={e => updateField('user_info', 'name', e.target.value)}
                 placeholder="Insert a Name"
             />
 
@@ -111,8 +79,8 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
             <input
                 type="number"
                 className={styles.text}
-                value={profile.user_info.age}
-                onChange={e => updateProfile('user_info', 'age', e.target.value)}
+                value={data.user_info.age}
+                onChange={e => updateField('user_info', 'age', e.target.value)}
                 placeholder="Insert Age"
             />
 
@@ -122,7 +90,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                     <label key={option} className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            checked={profile.user_info.dietary_preference.includes(option)}
+                            checked={data.user_info.dietary_preference.includes(option)}
                             onChange={() => toggleArrayValue('user_info', 'dietary_preference', option)}
                         />
                         {option}
@@ -136,7 +104,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                     <label key={option} className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            checked={profile.allergies.common_allergens.includes(option)}
+                            checked={data.allergies.common_allergens.includes(option)}
                             onChange={() => toggleArrayValue('allergies', 'common_allergens', option)}
                         />
                         {option}
@@ -147,8 +115,8 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
             <label className={styles.label}>Allergy Severity</label>
             <select
                 className={styles.selectField}
-                value={profile.allergies.severity}
-                onChange={e => updateProfile('allergies', 'severity', e.target.value)}
+                value={data.allergies.severity}
+                onChange={e => updateField('allergies', 'severity', e.target.value)}
             >
                 <option value="">Select severity</option>
                 {severityOptions.map(level => (
@@ -163,7 +131,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                 <input
                     type="number"
                     className={styles.inputField}
-                    value={profile.health_goals.macro_limits.sugar_limit_g}
+                    value={data.health_goals.macro_limits.sugar_limit_g}
                     onChange={e => updateMacro('sugar_limit_g', e.target.value)}
                 />
 
@@ -171,7 +139,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                 <input
                     type="number"
                     className={styles.inputField}
-                    value={profile.health_goals.macro_limits.sodium_limit_g}
+                    value={data.health_goals.macro_limits.sodium_limit_g}
                     onChange={e => updateMacro('sodium_limit_g', e.target.value)}
                 />
 
@@ -179,11 +147,10 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                 <input
                     type="number"
                     className={styles.inputField}
-                    value={profile.health_goals.macro_limits.fat_limit_g}
+                    value={data.health_goals.macro_limits.fat_limit_g}
                     onChange={e => updateMacro('fat_limit_g', e.target.value)}
                 />
             </fieldset>
-
 
             <fieldset className={styles.checkboxGroup}>
                 <legend className={styles.label}>Special Diets</legend>
@@ -191,7 +158,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                     <label key={option} className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            checked={profile.health_goals.special_diets.includes(option)}
+                            checked={data.health_goals.special_diets.includes(option)}
                             onChange={() => toggleArrayValue('health_goals', 'special_diets', option)}
                         />
                         {option}
@@ -205,7 +172,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                     <label key={option} className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            checked={profile.ingredient_preferences.preferred.includes(option)}
+                            checked={data.ingredient_preferences.preferred.includes(option)}
                             onChange={() => toggleArrayValue('ingredient_preferences', 'preferred', option)}
                         />
                         {option}
@@ -213,22 +180,13 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                 ))}
             </fieldset>
 
-            <label className={styles.label}>Avoid Ingredients (comma-separated)</label>
-            <input
-                type="text"
-                className={styles.text}
-                placeholder="e.g. Aspartame, MSG"
-                value={profile.ingredient_preferences.avoid.join(', ')}
-                onChange={e => handleAvoidChange(e.target.value)}
-            />
-
             <fieldset className={styles.checkboxGroup}>
                 <legend className={styles.label}>Packaging Preferences</legend>
                 {packagingOptions.map(option => (
                     <label key={option} className={styles.checkboxLabel}>
                         <input
                             type="checkbox"
-                            checked={profile.environmental_preferences.packaging.includes(option)}
+                            checked={data.environmental_preferences.packaging.includes(option)}
                             onChange={() => toggleArrayValue('environmental_preferences', 'packaging', option)}
                         />
                         {option}
@@ -241,7 +199,7 @@ export default function ProfileCard({ index, onDelete }: ProfileCardProps) {
                     <img src={saveIcon} className={styles.icon} />
                     <span className={styles.type}>Save</span>
                 </button>
-                <button className={styles.deleteButton} onClick={saveProfile}>
+                <button className={styles.deleteButton} onClick={deleteProfile}>
                     <img src={deleteIcon} className={styles.icon} />
                     <span className={styles.type}>Delete</span>
                 </button>
