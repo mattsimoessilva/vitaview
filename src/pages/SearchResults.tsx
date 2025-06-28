@@ -13,6 +13,7 @@ import Loading from '../components/Loading/Loading';
 import { useTheme, useMediaQuery } from '@mui/material';
 import MockImage from '../assets/mock_image.jpg';
 import config from '../config';
+import NotFound from '../components/NotFound/NotFound';
 
 const USE_API = config.USE_API;
 
@@ -161,7 +162,7 @@ function SearchResults() {
                             />
                         </>
                     ) : (
-                        <p>No results found for “{query}”</p>
+                        <NotFound />
                     )}
                 </ContentArea>
             </MainContainer>

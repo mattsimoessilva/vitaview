@@ -1,9 +1,10 @@
 import styles from './SuitabilityMessage.module.css';
 import CheckIcon from '../../assets/check.svg';
 import BlockIcon from '../../assets/block.svg';
+import EmptyIcon from '../../assets/empty.svg';
 
 interface MessageProps {
-    status: 'suitable' | 'not_suitable';
+    status: 'suitable' | 'not_suitable' | 'unavailable';
 }
 
 const SuitabilityMessage: React.FC<MessageProps> = ({ status }) => {
@@ -17,8 +18,15 @@ const SuitabilityMessage: React.FC<MessageProps> = ({ status }) => {
             className: `${styles.container} ${styles.not_suitable}`,
             label: 'Not suitable for your dietary needs',
             icon: BlockIcon
+        },
+        unavailable: {
+            className: `${styles.container} ${styles.unavailable}`,
+            label: 'No dietary information registered',
+            icon: EmptyIcon
         }
     };
+
+    console.log(status);
 
     const { className, label, icon } = config[status];
 

@@ -17,6 +17,10 @@
     background-color: #CD7676;
 }
 
+.unavailable {
+    background-color: darkgray;
+}
+
 /* Mobile */
 @media (max-width: 767px) {
     .container {
