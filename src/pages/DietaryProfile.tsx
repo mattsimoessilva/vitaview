@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import ProfileManager from '../components/ProfileManager/ProfileManager';
 
 const buttons = [
-    { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
+    { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon', link: '/dietary' }
 ];
 
 function DietaryProfile() {

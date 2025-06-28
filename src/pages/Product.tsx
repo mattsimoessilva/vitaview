@@ -17,7 +17,7 @@ import SuitabilityMessage from '../components/SuitabilityMessage/SuitabilityMess
 const USE_API = config.USE_API;
 
 const buttons = [
-    { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
+    { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon', link: '/dietary' }
 ];
 
 interface ProductData {

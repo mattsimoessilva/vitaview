@@ -16,6 +16,9 @@ import config from '../config';
 
 const USE_API = config.USE_API;
 
+const buttons = [
+    { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon', link: '/dietary' }
+];
 
 interface Product {
     code: string;
@@ -118,10 +121,6 @@ function SearchResults() {
     const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
         navigate(`/results?query=${encodeURIComponent(query)}&page=${value}`);
     };
-
-    const buttons = [
-        { iconSrc: ListIcon, label: 'Dietary Info', altText: 'List Icon' }
-    ];
 
     const formattedProducts = results.map((product) => ({
         code: product.code, // Add this line
