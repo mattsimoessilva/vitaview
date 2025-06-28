@@ -11,6 +11,8 @@ export default function ProfileManager() {
         return savedProfiles ? JSON.parse(savedProfiles) : [];
     });
 
+    const [pendingProfile, setPendingProfile] = useState<any | null>(null);
+
     const [confirmDialog, setConfirmDialog] = useState<{
         message: string;
         onConfirm: () => void;
@@ -22,7 +24,7 @@ export default function ProfileManager() {
     }, [profiles]);
 
     const addProfile = () => {
-        if (profiles.length >= 3) {
+        if (profiles.length >= 3 || pendingProfile) {
             setConfirmDialog({
                 message: 'You can only have up to 3 profiles.',
                 onConfirm: () => setConfirmDialog(null),
@@ -42,7 +44,16 @@ export default function ProfileManager() {
             environmental_preferences: { packaging: [] },
         };
 
-        setProfiles(prev => [...prev, newProfile]);
+        setPendingProfile(newProfile);
+    };
+
+    const savePendingProfile = (profile: any) => {
+        setProfiles(prev => [...prev, profile]);
+        setPendingProfile(null);
+    };
+
+    const cancelPendingProfile = () => {
+        setPendingProfile(null);
     };
 
     const deleteProfile = (index: number) => {
@@ -68,7 +79,7 @@ export default function ProfileManager() {
         const handleWheel = (e: WheelEvent) => {
             const active = document.activeElement;
             if (active instanceof HTMLInputElement && active.type === 'number') {
-                active.blur(); 
+                active.blur();
             }
         };
 
@@ -78,7 +89,6 @@ export default function ProfileManager() {
             document.removeEventListener('wheel', handleWheel);
         };
     }, []);
-
 
     return (
         <div className={styles.container}>
@@ -100,10 +110,22 @@ export default function ProfileManager() {
                 />
             ))}
 
-            <button className={styles.addButton} onClick={addProfile}>
-                <img src={AddIcon} alt="Add Profile" className={styles.icon} />
-                Add Profile
-            </button>
+            {pendingProfile && (
+                <ProfileCard
+                    index={profiles.length}
+                    data={pendingProfile}
+                    onChange={(updated) => setPendingProfile(updated)}
+                    onDelete={cancelPendingProfile}
+                    onSave={savePendingProfile}
+                />
+            )}
+
+            {!pendingProfile && (
+                <button className={styles.addButton} onClick={addProfile}>
+                    <img src={AddIcon} alt="Add Profile" className={styles.icon} />
+                    Add Profile
+                </button>
+            )}
 
             {confirmDialog && (
                 <CustomDialog

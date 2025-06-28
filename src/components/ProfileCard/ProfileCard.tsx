@@ -15,8 +15,10 @@ interface ProfileCardProps {
     index: number;
     data: any;
     onChange: (updatedProfile: any) => void;
-    onDelete: (index: number) => void;
+    onDelete: (index: number) => void | (() => void);
+    onSave?: (profile: any) => void;
 }
+
 
 export default function ProfileCard({ index, data, onChange, onDelete }: ProfileCardProps) {
     const [dialog, setDialog] = useState<null | { message: string; onConfirm: () => void }>(null);
