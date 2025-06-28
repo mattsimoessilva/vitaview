@@ -3,26 +3,31 @@ import styles from './ProfileManager.module.css';
 import AddIcon from '../../assets/add.svg';
 import ProfileSelector from '../ProfileSelector/ProfileSelector';
 import ProfileCard from '../ProfileCard/ProfileCard';
+import CustomDialog from '../CustomDialog/CustomDialog';
 
 export default function ProfileManager() {
-
     const [profiles, setProfiles] = useState(() => {
         const savedProfiles = localStorage.getItem('dietaryProfiles');
         return savedProfiles ? JSON.parse(savedProfiles) : [];
     });
 
-
-
+    const [confirmDialog, setConfirmDialog] = useState<{
+        message: string;
+        onConfirm: () => void;
+        onCancel: () => void;
+    } | null>(null);
 
     useEffect(() => {
         localStorage.setItem('dietaryProfiles', JSON.stringify(profiles));
-        console.log('Saved to localStorage:', profiles);
     }, [profiles]);
-
 
     const addProfile = () => {
         if (profiles.length >= 3) {
-            alert('You can only have up to 3 profiles.');
+            setConfirmDialog({
+                message: 'You can only have up to 3 profiles.',
+                onConfirm: () => setConfirmDialog(null),
+                onCancel: () => setConfirmDialog(null),
+            });
             return;
         }
 
@@ -31,25 +36,54 @@ export default function ProfileManager() {
             allergies: { common_allergens: [], severity: '' },
             health_goals: {
                 macro_limits: { sugar_limit_g: '', sodium_limit_g: '', fat_limit_g: '' },
-                special_diets: []
+                special_diets: [],
             },
             ingredient_preferences: { avoid: [], preferred: [] },
-            environmental_preferences: { packaging: [] }
+            environmental_preferences: { packaging: [] },
         };
 
         setProfiles(prev => [...prev, newProfile]);
     };
 
     const deleteProfile = (index: number) => {
-        const updated = [...profiles];
-        updated.splice(index, 1);
-        setProfiles(updated);
+        setConfirmDialog({
+            message: 'Are you sure you want to delete this profile?',
+            onConfirm: () => {
+                const updated = [...profiles];
+                const removed = updated.splice(index, 1);
+                setProfiles(updated);
+
+                const active = localStorage.getItem('activeUserProfile');
+                if (active && JSON.stringify(JSON.parse(active)) === JSON.stringify(removed[0])) {
+                    localStorage.removeItem('activeUserProfile');
+                }
+
+                setConfirmDialog(null);
+            },
+            onCancel: () => setConfirmDialog(null),
+        });
     };
+
+    useEffect(() => {
+        const handleWheel = (e: WheelEvent) => {
+            const active = document.activeElement;
+            if (active instanceof HTMLInputElement && active.type === 'number') {
+                active.blur(); 
+            }
+        };
+
+        document.addEventListener('wheel', handleWheel, { passive: false });
+
+        return () => {
+            document.removeEventListener('wheel', handleWheel);
+        };
+    }, []);
+
 
     return (
         <div className={styles.container}>
             <h4 className={styles.title}>Active Profile</h4>
-            <ProfileSelector />
+            <ProfileSelector profiles={profiles} />
 
             <h4 className={styles.title}>All Profiles ({profiles.length}/3)</h4>
             {profiles.map((_, index) => (
@@ -64,13 +98,20 @@ export default function ProfileManager() {
                     }}
                     onDelete={deleteProfile}
                 />
-
             ))}
 
             <button className={styles.addButton} onClick={addProfile}>
                 <img src={AddIcon} alt="Add Profile" className={styles.icon} />
                 Add Profile
             </button>
+
+            {confirmDialog && (
+                <CustomDialog
+                    message={confirmDialog.message}
+                    onConfirm={confirmDialog.onConfirm}
+                    onCancel={confirmDialog.onCancel}
+                />
+            )}
         </div>
     );
 }
