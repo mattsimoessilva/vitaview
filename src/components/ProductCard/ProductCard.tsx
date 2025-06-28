@@ -1,34 +1,13 @@
 import styles from './ProductCard.module.css';
 
-interface ProductProps {
-    product: {
-        imageSrc: string;
-        name: string;
-        brands: string;
-        labels: string;
-        quantity: string;
-        generic_name: string;
-        code: string;
-        manufacturing_location: string;
-        countries_sold: string;
-        ingredients_list: string;
-        allergens: string;
-        type: string;
-        recyclability: string;
-        nutri_score: string;
-        nova_group: string;
-        carbon_footprint: string;
-        eco_score: string;
-    };
-}
-
-const ProductCard: React.FC<ProductProps> = ({ product }) => {
-    const downloadProductData = () => {
-        const blob = new Blob([JSON.stringify(product, null, 2)], { type: 'application/json' });
+const ProductCard: React.FC<{ product: any; fullData?: any }> = ({ product, fullData }) => {
+    const downloadFullData = () => {
+        if (!fullData) return;
+        const blob = new Blob([JSON.stringify(fullData, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${product.name || 'product'}-data.json`;
+        link.download = `${product.name?.replace(/\s+/g, '_') || 'product'}_full_data.json`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -92,12 +71,12 @@ const ProductCard: React.FC<ProductProps> = ({ product }) => {
                     <p className={styles.value}>{product.recyclability}</p>
                 </div>
 
-                
+          
             </div>
             <div className={styles.downloadSection}>
-                <button className={styles.downloadButton} onClick={downloadProductData}>
-                    Download Product Data
-                </button>
+                    <button className={styles.downloadButton} onClick={downloadFullData}>
+                        Download Full Product
+                    </button>
             </div>
         </>
     );

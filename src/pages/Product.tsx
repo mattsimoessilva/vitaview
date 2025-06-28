@@ -18,7 +18,6 @@ import { formatTags } from '../utils/formatTags';
 import { buildSuitabilityPayload } from '../utils/buildSuitabilityPayload';
 import mockProduct from '../mocks/mockProduct';
 
-
 const USE_API = config.USE_API;
 
 const buttons = [
@@ -51,6 +50,7 @@ function Product() {
 
     const [loading, setLoading] = useState(USE_API);
     const [product, setProduct] = useState<ProductData | null>(null);
+    const [fullApiResponse, setFullApiResponse] = useState<any | null>(null);
     const [suitabilityMessage, setSuitabilityMessage] = useState<string | null>(null);
 
     const handleSearch = (newQuery: string) => {
@@ -68,6 +68,7 @@ function Product() {
                 setLoading(true);
                 const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}?fields=code,product_name,brands,labels_tags,quantity,generic_name,manufacturing_place,countries_tags,ingredients_text,ingredients_tags,allergens_tags,categories_tags,packaging_tags,packaging_recycling,image_url,nutriscore_grade,nova_group,ecoscore_grade,carbon_footprint,nutriments,ingredients_analysis_tags`);
                 const data = await res.json();
+                setFullApiResponse(data);
 
                 if (data.status === 1 && data.product) {
                     setProduct({
@@ -90,24 +91,14 @@ function Product() {
                         carbon_footprint: data.product.carbon_footprint ?? 'Not available',
                     });
 
-                    // Suitability check
                     const activeProfile = localStorage.getItem('activeUserProfile');
-                    console.log('Profile' + activeProfile);
-
                     if (activeProfile) {
                         const user = JSON.parse(activeProfile);
                         const suitability = isProductSuitable(user, buildSuitabilityPayload(data.product));
-
-                        setSuitabilityMessage(
-                            suitability.suitable
-                                ? 'suitable'
-                                : 'not_suitable'
-                        );
+                        setSuitabilityMessage(suitability.suitable ? 'suitable' : 'not_suitable');
                     } else {
                         setSuitabilityMessage('unavailable');
                     }
-
-
                 } else {
                     setProduct(null);
                 }
@@ -134,17 +125,16 @@ function Product() {
                     ) : product ? (
                         <>
                             {(USE_API && suitabilityMessage) || !USE_API ? (
-                                    <SuitabilityMessage
-                                        status={
-                                            USE_API
-                                                ? suitabilityMessage ?? 'unavailable'
-                                                : 'unavailable'
-                                        }
-                                    />
+                                <SuitabilityMessage
+                                    status={
+                                        USE_API
+                                            ? suitabilityMessage ?? 'unavailable'
+                                            : 'unavailable'
+                                    }
+                                />
                             ) : null}
 
-
-                            <ProductCard product={product} />
+                            <ProductCard product={product} fullData={fullApiResponse} />
                         </>
                     ) : (
                         <NotFound />
