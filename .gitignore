@@ -1,0 +1,49 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Node dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+public/
+obj/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.vs/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# IDE configurations
+*.esproj
+
+# Environment and configuration files
+*.env
+*.config.js
+*.config.ts
+*.config.json
+
+# Temp files
+*.tmp
+*.temp
+
+# System-specific files
+.DS_Store
+Thumbs.db
+
+# Git and metadata
+.gitattributes
+# .gitignore — removed this so Git will track it
