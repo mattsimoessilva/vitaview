@@ -4,7 +4,7 @@ import AddIcon from '../../assets/add.svg';
 import ProfileSelector from '../ProfileSelector/ProfileSelector';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import CustomDialog from '../CustomDialog/CustomDialog';
-
+import InfoTooltip from '../InfoToolTip/InfoToolTip';
 export default function ProfileManager() {
     const [profiles, setProfiles] = useState(() => {
         const savedProfiles = localStorage.getItem('dietaryProfiles');
@@ -95,7 +95,13 @@ export default function ProfileManager() {
             <h4 className={styles.title}>Active Profile</h4>
             <ProfileSelector profiles={profiles} />
 
-            <h4 className={styles.title}>All Profiles ({profiles.length}/3)</h4>
+            <div className={styles.header_section}>
+                <h4 className={styles.title}>
+                    All Profiles ({profiles.length}/3)
+                </h4>
+                <InfoTooltip />
+            </div>
+
             {profiles.map((_, index) => (
                 <ProfileCard
                     key={index}

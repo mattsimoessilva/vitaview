@@ -14,7 +14,7 @@
     -webkit-text-fill-color: transparent;
     font-size: 24px;
     font-weight: bold;
-    width: 100%;
+    width: auto;
     margin-top: 0;
     margin-bottom: 10px;
     display: -webkit-box;
@@ -32,7 +32,7 @@
 .title {
     font-size: 18px;
     font-weight: bold;
-    margin: 24px 0 12px;
+    margin: 24px 0 24px;
 }
 
 .addButton {
@@ -60,6 +60,12 @@
     height: 18px;
 }
 
+.header_section {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+}
 
 /* Mobile */
 @media (max-width: 767px) {
