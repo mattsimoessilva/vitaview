@@ -36,7 +36,7 @@ function Home() {
             title: 'Nutritional Scores',
             text: `Here users can search for food items and view their nutritional score through a clean, transparent interface
                     \nEach food is evaluated using key dietary metrics such as calories, fat, sugar, fiber, and protein, and the resulting score offers a simple way to assess overall nutritional quality`,
-            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
+            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" link="https://sensia.ai/blog/nutri-score"/>,
             imagePosition: 'standard'
         },
         {
@@ -44,7 +44,7 @@ function Home() {
             title: 'Processing Scores',
             text: `We empower users to explore and compare food items through a modern, transparent interface designed for clarity and ease of use
                     \nEach food product is assigned a nutritional score derived from essential dietary metrics, including calories, fat, sugar, fiber, and protein`,
-            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
+            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" link="https://scitechdaily.com/scientists-expose-startling-levels-of-food-processing-at-walmart-target-and-whole-foods/" />,
             imagePosition: 'varied'
         },
         {
@@ -52,7 +52,7 @@ function Home() {
             title: 'Green Scores',
             text: `Each product is assigned a comprehensive sustainability rating informed by a range of critical environmental criteria
                     \nThese include greenhouse gas emissions across its lifecycle, freshwater consumption during production, and many others`,
-            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" />,
+            button: <IconButton iconSrc={LinkIcon} label="Learn More" altText="Link Icon" theme="dark" link="https://www.climatecamp.io/post/whats-behind-the-eco-score-and-how-it-will-impact-your-decisions" />,
             imagePosition: 'standard'
         }
     ];  
